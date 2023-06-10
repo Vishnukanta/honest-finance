@@ -1,0 +1,130 @@
+{
+  "rules": {
+    "incomes": {
+      "$incomeId": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.hasChildren(['categoryId', 'accountId', 'ammount', 'transactionDate', 'note'])",
+        "categoryId": {
+          ".validate": "root.child('categories').child(newData.val()).exists()"
+        },
+        "accountId": {
+          ".validate": "root.child('accounts').child(newData.val()).exists()"
+        },
+        "ammount": {
+          ".validate": "newData.isNumber() && newData.val() < 0"
+        },
+        "transactionDate": {
+          ".validate": "newData.val().matches(/^\\d{2}\\.\\d{2}\\.\\d{4}$/)"
+        },
+        "note": {
+          ".validate": "newData.isString()"
+        }
+      }
+    },
+    "expenses": {
+      "$expenseId": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.hasChildren(['categoryId', 'accountId', 'ammount', 'transactionDate', 'note', 'satisfaction', 'principle'])",
+        "categoryId": {
+          ".validate": "root.child('categories').child(newData.val()).exists()"
+        },
+        "accountId": {
+          ".validate": "root.child('accounts').child(newData.val()).exists()"
+        },
+        "ammount": {
+          ".validate": "newData.isNumber() && newData.val() > 0"
+        },
+        "transactionDate": {
+          ".validate": "newData.val().matches(/^\\d{2}\\.\\d{2}\\.\\d{4}$/)"
+        },
+        "note": {
+          ".validate": "newData.isString()"
+        },
+        "satisfaction": {
+          ".validate": "newData.isNumber() && newData.val() > 0 && newData.val() <= 100"
+        },
+        "principle": {
+          ".validate": "newData.isNumber() && newData.val() > 0 && newData.val() <= 100"
+        }
+      }
+    },
+    "categories": {
+      "$categoryId": {
+        ".read": true,
+        ".write": true,
+        "iconId": {
+          ".validate": "root.child('icons').child(newData.val()).exists()"
+        },
+        "name": {
+          ".validate": "newData.isString()"
+        },
+        "type": {
+          ".validate": "newData.isString()"
+        }
+      }
+    },
+    "accounts": {
+      "$accountId": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.hasChildren(['iconId', 'currencyId', 'name', 'balance'])",
+        "iconId": {
+          ".validate": "root.child('icons').child(newData.val()).exists()"
+        },
+        "currencyId": {
+          ".validate": "root.child('currencies').child(newData.val()).exists()"
+        },
+        "name": {
+          ".validate": "newData.isString()"
+        },
+        "balance": {
+          ".validate": "newData.isNumber()"
+        }
+      }
+    },
+    "currencies": {
+      "$currencyId": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.hasChildren(['iconId', 'name'])",
+        "iconId": {
+          ".validate": "root.child('icons').child(newData.val()).exists()"
+        },
+        "name": {
+          ".validate": "newData.isString()"
+        }
+      }
+    },
+    "icons": {
+      "$iconId": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.hasChildren(['iconTypeId', 'name', 'path'])",
+        "iconTypeId": {
+          ".validate": "root.child('iconTypes').child(newData.val()).exists()"
+        },
+        "name": {
+          ".validate": "newData.isString()"
+        },
+        "path": {
+          ".validate": "newData.isString()"
+        }
+      }
+    },
+    "iconTypes": {
+      "$iconTypeId": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.hasChildren(['code', 'name'])",
+        "code": {
+          ".validate": "newData.isString()"
+        },
+        "name": {
+          ".validate": "newData.isString()"
+        }
+      }
+    }
+  }
+}
